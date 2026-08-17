@@ -1,294 +1,167 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import Sidebar from "../components/Sidebar";
 
 function Settings() {
-  const [emailNotifications, setEmailNotifications] = useState(true);
-  const [sessionNotifications, setSessionNotifications] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("cloudhub-theme") === "dark";
+  });
+
+  const [notifications, setNotifications] = useState(true);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+      localStorage.setItem("cloudhub-theme", "dark");
+    } else {
+      document.body.classList.remove("dark-mode");
+      localStorage.setItem("cloudhub-theme", "light");
+    }
+  }, [darkMode]);
 
   return (
     <div className="dashboard-layout">
 
-      {/* SIDEBAR */}
-
-      <aside className="sidebar">
-
-        <div className="sidebar-logo">
-          ☁️ Cloud<span>Hub</span>
-        </div>
-
-        <nav className="sidebar-nav">
-
-          <Link to="/dashboard">
-            🏠 Dashboard
-          </Link>
-
-          <Link to="/my-apps">
-            📱 My Apps
-          </Link>
-
-          <Link to="/upload">
-            ⬆️ Upload APK
-          </Link>
-
-          <Link to="/sessions">
-            🖥️ Sessions
-          </Link>
-
-          <Link to="/billing">
-            💳 Billing
-          </Link>
-
-          <Link to="/profile">
-            👤 Profile
-          </Link>
-
-          <Link to="/settings" className="active">
-            ⚙️ Settings
-          </Link>
-
-        </nav>
-
-        <div className="sidebar-bottom">
-          <Link to="/">
-            🚪 Logout
-          </Link>
-        </div>
-
-      </aside>
-
-
-      {/* MAIN */}
+      <Sidebar activePage="settings" />
 
       <main className="dashboard-main">
 
         <header className="dashboard-header">
-
           <div>
             <h1>Settings</h1>
-
-            <p>
-              Manage your CloudHub preferences.
-            </p>
+            <p>Manage your CloudHub preferences.</p>
           </div>
-
         </header>
 
 
-        <div className="settings-page">
+        {/* APPEARANCE */}
+        <section className="settings-section">
+
+          <div className="settings-section-header">
+            <h2>Appearance</h2>
+            <p>Customize how CloudHub looks on your device.</p>
+          </div>
 
 
-          {/* NOTIFICATIONS */}
-
-          <section className="settings-card">
-
-            <div className="settings-card-header">
-
-              <div>
-                <h2>Notifications</h2>
-
-                <p>
-                  Choose which notifications you want to receive.
-                </p>
-              </div>
-
-              <span className="settings-icon">
-                🔔
-              </span>
-
-            </div>
-
+          <div className="settings-card">
 
             <div className="setting-row">
 
-              <div>
-                <strong>
-                  Email Notifications
-                </strong>
+              <div className="setting-info">
+                <strong>Dark Mode</strong>
 
-                <p>
-                  Receive important updates through email.
-                </p>
+                <span>
+                  Use a darker theme across the CloudHub dashboard.
+                </span>
               </div>
+
 
               <button
                 type="button"
-                className={
-                  emailNotifications
-                    ? "toggle active"
-                    : "toggle"
-                }
-                onClick={() =>
-                  setEmailNotifications(!emailNotifications)
-                }
-              >
-                <span></span>
-              </button>
-
-            </div>
-
-
-            <div className="setting-row">
-
-              <div>
-                <strong>
-                  Session Notifications
-                </strong>
-
-                <p>
-                  Get notified when your cloud session changes.
-                </p>
-              </div>
-
-              <button
-                type="button"
-                className={
-                  sessionNotifications
-                    ? "toggle active"
-                    : "toggle"
-                }
-                onClick={() =>
-                  setSessionNotifications(!sessionNotifications)
-                }
-              >
-                <span></span>
-              </button>
-
-            </div>
-
-          </section>
-
-
-          {/* APPEARANCE */}
-
-          <section className="settings-card">
-
-            <div className="settings-card-header">
-
-              <div>
-                <h2>Appearance</h2>
-
-                <p>
-                  Customize how CloudHub looks.
-                </p>
-              </div>
-
-              <span className="settings-icon">
-                🎨
-              </span>
-
-            </div>
-
-
-            <div className="setting-row">
-
-              <div>
-                <strong>
-                  Dark Mode
-                </strong>
-
-                <p>
-                  Use a darker interface for CloudHub.
-                </p>
-              </div>
-
-              <button
-                type="button"
-                className={
-                  darkMode
-                    ? "toggle active"
-                    : "toggle"
-                }
+                className={`toggle-switch ${
+                  darkMode ? "on" : ""
+                }`}
                 onClick={() => setDarkMode(!darkMode)}
+                aria-label="Toggle dark mode"
               >
-                <span></span>
+                <span className="toggle-circle"></span>
               </button>
 
             </div>
 
-          </section>
+          </div>
+
+        </section>
 
 
-          {/* SECURITY */}
+        {/* NOTIFICATIONS */}
+        <section className="settings-section">
 
-          <section className="settings-card">
+          <div className="settings-section-header">
+            <h2>Notifications</h2>
+            <p>Choose which notifications you want to receive.</p>
+          </div>
 
-            <div className="settings-card-header">
 
-              <div>
-                <h2>Security</h2>
+          <div className="settings-card">
 
-                <p>
-                  Manage your account security.
-                </p>
+            <div className="setting-row">
+
+              <div className="setting-info">
+                <strong>Application Notifications</strong>
+
+                <span>
+                  Receive notifications about your applications and sessions.
+                </span>
               </div>
 
-              <span className="settings-icon">
-                🔐
-              </span>
+
+              <button
+                type="button"
+                className={`toggle-switch ${
+                  notifications ? "on" : ""
+                }`}
+                onClick={() =>
+                  setNotifications(!notifications)
+                }
+                aria-label="Toggle notifications"
+              >
+                <span className="toggle-circle"></span>
+              </button>
 
             </div>
 
+          </div>
 
-            <div className="security-row">
+        </section>
 
-              <div>
-                <strong>
-                  Password
-                </strong>
 
-                <p>
-                  Last changed recently.
-                </p>
+        {/* ACCOUNT */}
+        <section className="settings-section">
+
+          <div className="settings-section-header">
+            <h2>Account</h2>
+            <p>Manage your CloudHub account.</p>
+          </div>
+
+
+          <div className="settings-card">
+
+            <div className="setting-row">
+
+              <div className="setting-info">
+                <strong>Account Plan</strong>
+
+                <span>
+                  You are currently using the Free Plan.
+                </span>
               </div>
 
-              <button className="change-password-btn">
-                Change Password
+              <button className="settings-action-btn">
+                Manage Billing
               </button>
 
             </div>
 
 
-            <div className="security-row">
+            <div className="setting-row">
 
-              <div>
-                <strong>
-                  Two-Factor Authentication
-                </strong>
+              <div className="setting-info">
+                <strong>Delete Account</strong>
 
-                <p>
-                  Add an extra layer of security to your account.
-                </p>
+                <span>
+                  Permanently delete your CloudHub account and data.
+                </span>
               </div>
 
-              <button className="enable-security-btn">
-                Enable
+              <button className="delete-btn">
+                Delete Account
               </button>
 
             </div>
 
-          </section>
+          </div>
 
-
-          {/* DANGER ZONE */}
-
-          <section className="settings-card danger-card">
-
-            <h2>
-              Account
-            </h2>
-
-            <p>
-              Logging out will end your current CloudHub session.
-            </p>
-
-            <Link to="/" className="logout-settings-btn">
-              🚪 Logout
-            </Link>
-
-          </section>
-
-        </div>
+        </section>
 
       </main>
 

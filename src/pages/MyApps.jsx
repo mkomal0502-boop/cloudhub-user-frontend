@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 function MyApps() {
   const apps = [
@@ -7,78 +8,31 @@ function MyApps() {
       file: "Calculator-Demo.apk",
       size: "24.00 MB",
       status: "Ready",
-      icon: "🧮",
+      icon: "C",
     },
     {
       name: "ChatApp",
       file: "ChatApp.apk",
       size: "32.50 MB",
       status: "Running",
-      icon: "💬",
+      icon: "C",
     },
     {
       name: "Browser",
       file: "Browser.apk",
       size: "18.20 MB",
       status: "Ready",
-      icon: "🌐",
+      icon: "B",
     },
   ];
 
   return (
     <div className="dashboard-layout">
 
-      {/* SIDEBAR */}
-
-      <aside className="sidebar">
-
-        <div className="sidebar-logo">
-          ☁️ Cloud<span>Hub</span>
-        </div>
-
-        <nav className="sidebar-nav">
-
-          <Link to="/dashboard">
-            🏠 Dashboard
-          </Link>
-
-          <Link to="/my-apps" className="active">
-            📱 My Apps
-          </Link>
-
-          <Link to="/upload">
-            ⬆️ Upload APK
-          </Link>
-
-          <Link to="/sessions">
-            🖥️ Sessions
-          </Link>
-
-          <Link to="/billing">
-            💳 Billing
-          </Link>
-
-          <Link to="/profile">
-            👤 Profile
-          </Link>
-
-          <Link to="/settings">
-            ⚙️ Settings
-          </Link>
-
-        </nav>
-
-        <div className="sidebar-bottom">
-          <Link to="/">
-            🚪 Logout
-          </Link>
-        </div>
-
-      </aside>
-
+      {/* COMMON SIDEBAR */}
+      <Sidebar activePage="my-apps" />
 
       {/* MAIN */}
-
       <main className="dashboard-main">
 
         <header className="dashboard-header">
@@ -99,7 +53,6 @@ function MyApps() {
 
 
         {/* APP GRID */}
-
         <div className="apps-grid">
 
           {apps.map((app, index) => (
@@ -112,9 +65,9 @@ function MyApps() {
                   {app.icon}
                 </div>
 
-     <button className="app-menu-btn">
-  ⋮
-</button>
+                <button className="app-menu-btn">
+                  ⋮
+                </button>
 
               </div>
 
@@ -159,7 +112,6 @@ function MyApps() {
 
 
           {/* ADD APP CARD */}
-
           <Link to="/upload" className="add-app-card">
 
             <div className="add-app-icon">

@@ -1,60 +1,14 @@
 import { Link } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 function Billing() {
   return (
     <div className="dashboard-layout">
 
-      {/* SIDEBAR */}
+      {/* COMMON SIDEBAR */}
+      <Sidebar activePage="billing" />
 
-      <aside className="sidebar">
-
-        <div className="sidebar-logo">
-          ☁️ Cloud<span>Hub</span>
-        </div>
-
-        <nav className="sidebar-nav">
-
-          <Link to="/dashboard">
-            🏠 Dashboard
-          </Link>
-
-          <Link to="/my-apps">
-            📱 My Apps
-          </Link>
-
-          <Link to="/upload">
-            ⬆️ Upload APK
-          </Link>
-
-          <Link to="/sessions">
-            🖥️ Sessions
-          </Link>
-
-          <Link to="/billing" className="active">
-            💳 Billing
-          </Link>
-
-          <Link to="/profile">
-            👤 Profile
-          </Link>
-
-          <Link to="/settings">
-            ⚙️ Settings
-          </Link>
-
-        </nav>
-
-        <div className="sidebar-bottom">
-          <Link to="/">
-            🚪 Logout
-          </Link>
-        </div>
-
-      </aside>
-
-
-      {/* MAIN */}
-
+      {/* MAIN CONTENT */}
       <main className="dashboard-main">
 
         <header className="dashboard-header">
@@ -71,28 +25,18 @@ function Billing() {
 
 
         {/* CURRENT PLAN */}
-
-        <section className="billing-plan">
+        <section className="billing-current">
 
           <div>
-
-            <span className="plan-label">
+            <span className="billing-label">
               CURRENT PLAN
             </span>
 
-            <h2>
-              Free Plan
-            </h2>
+            <h2>Free Plan</h2>
 
             <p>
-              Perfect for testing CloudHub.
+              Basic access to CloudHub services.
             </p>
-
-          </div>
-
-          <div className="plan-price">
-            <strong>₹0</strong>
-            <span>/ month</span>
           </div>
 
           <button className="upgrade-btn">
@@ -103,140 +47,198 @@ function Billing() {
 
 
         {/* USAGE */}
+        <section className="billing-section">
 
-        <h2 className="billing-heading">
-          Usage
-        </h2>
+          <div className="section-heading">
 
-        <section className="usage-grid">
+            <div>
+              <h2>Usage</h2>
 
-          <div className="usage-card">
-
-            <div className="usage-top">
-              <span>💾 Storage</span>
-              <strong>2.4 GB / 10 GB</strong>
+              <p>
+                Your current CloudHub resource usage.
+              </p>
             </div>
-
-            <div className="progress-bar">
-              <div
-                className="progress-fill"
-                style={{ width: "24%" }}
-              ></div>
-            </div>
-
-            <p>
-              24% of your storage used
-            </p>
 
           </div>
 
 
-          <div className="usage-card">
+          <div className="billing-usage-grid">
 
-            <div className="usage-top">
-              <span>🖥️ Sessions</span>
-              <strong>3 / 10</strong>
+            <div className="usage-card">
+
+              <div className="usage-card-header">
+                <span>Storage</span>
+                <strong>2.4 GB / 10 GB</strong>
+              </div>
+
+              <div className="usage-progress">
+                <div
+                  className="usage-progress-fill"
+                  style={{ width: "24%" }}
+                ></div>
+              </div>
+
+              <small>
+                24% of your storage used
+              </small>
+
             </div>
 
-            <div className="progress-bar">
-              <div
-                className="progress-fill"
-                style={{ width: "30%" }}
-              ></div>
+
+            <div className="usage-card">
+
+              <div className="usage-card-header">
+                <span>Sessions</span>
+                <strong>3 / 10</strong>
+              </div>
+
+              <div className="usage-progress">
+                <div
+                  className="usage-progress-fill"
+                  style={{ width: "30%" }}
+                ></div>
+              </div>
+
+              <small>
+                3 active sessions
+              </small>
+
             </div>
 
-            <p>
-              3 active sessions
-            </p>
 
-          </div>
+            <div className="usage-card">
 
+              <div className="usage-card-header">
+                <span>Applications</span>
+                <strong>12 / 25</strong>
+              </div>
 
-          <div className="usage-card">
+              <div className="usage-progress">
+                <div
+                  className="usage-progress-fill"
+                  style={{ width: "48%" }}
+                ></div>
+              </div>
 
-            <div className="usage-top">
-              <span>🚀 App Runs</span>
-              <strong>58 / 100</strong>
+              <small>
+                12 applications uploaded
+              </small>
+
             </div>
-
-            <div className="progress-bar">
-              <div
-                className="progress-fill"
-                style={{ width: "58%" }}
-              ></div>
-            </div>
-
-            <p>
-              58 app runs this month
-            </p>
 
           </div>
 
         </section>
 
 
-        {/* PAYMENT HISTORY */}
+        {/* PLANS */}
+        <section className="billing-section">
 
-        <section className="payment-section">
+          <div className="section-heading">
 
-          <div className="payment-heading">
+            <div>
+              <h2>Available Plans</h2>
 
-            <h2>
-              Payment History
-            </h2>
+              <p>
+                Choose a plan that fits your needs.
+              </p>
+            </div>
 
           </div>
 
-          <div className="payment-table">
 
-            <div className="payment-row payment-header">
+          <div className="plans-grid">
 
-              <span>Date</span>
-              <span>Description</span>
-              <span>Amount</span>
-              <span>Status</span>
+            {/* FREE */}
+            <div className="plan-card">
+
+              <span className="plan-name">
+                FREE
+              </span>
+
+              <h3>
+                ₹0
+                <small>/month</small>
+              </h3>
+
+              <p className="plan-description">
+                Good for trying CloudHub.
+              </p>
+
+              <ul>
+                <li>✓ 10 GB storage</li>
+                <li>✓ 25 applications</li>
+                <li>✓ 10 sessions</li>
+                <li>✓ Basic support</li>
+              </ul>
+
+              <button className="plan-btn current">
+                Current Plan
+              </button>
 
             </div>
 
 
-            <div className="payment-row">
+            {/* PRO */}
+            <div className="plan-card featured">
 
-              <span>
-                14 Aug 2026
+              <span className="plan-badge">
+                RECOMMENDED
               </span>
 
-              <span>
-                Free Plan
+              <span className="plan-name">
+                PRO
               </span>
 
-              <span>
-                ₹0
-              </span>
+              <h3>
+                ₹499
+                <small>/month</small>
+              </h3>
 
-              <span className="payment-success">
-                Paid
-              </span>
+              <p className="plan-description">
+                For users who need more resources.
+              </p>
+
+              <ul>
+                <li>✓ 50 GB storage</li>
+                <li>✓ 100 applications</li>
+                <li>✓ 25 sessions</li>
+                <li>✓ Priority support</li>
+              </ul>
+
+              <button className="plan-btn">
+                Upgrade to Pro
+              </button>
 
             </div>
 
 
-            <div className="payment-row">
+            {/* BUSINESS */}
+            <div className="plan-card">
 
-              <span>
-                14 Jul 2026
+              <span className="plan-name">
+                BUSINESS
               </span>
 
-              <span>
-                Free Plan
-              </span>
+              <h3>
+                ₹999
+                <small>/month</small>
+              </h3>
 
-              <span>
-                ₹0
-              </span>
+              <p className="plan-description">
+                Built for teams and larger workloads.
+              </p>
 
-              <span className="payment-success">
-                Paid
-              </span>
+              <ul>
+                <li>✓ 150 GB storage</li>
+                <li>✓ Unlimited applications</li>
+                <li>✓ 50 sessions</li>
+                <li>✓ Priority support</li>
+              </ul>
+
+              <button className="plan-btn">
+                Choose Business
+              </button>
 
             </div>
 

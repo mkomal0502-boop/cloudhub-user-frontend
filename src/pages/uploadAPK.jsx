@@ -1,111 +1,46 @@
-
-import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import Sidebar from "../components/Sidebar";
 
 function UploadAPK() {
-  const [file, setFile] = useState(null);
-  const [uploading, setUploading] = useState(false);
-  const [uploaded, setUploaded] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  // Real APK select
   const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0];
+    const file = event.target.files[0];
 
-    if (!selectedFile) return;
+    if (!file) return;
 
-    if (!selectedFile.name.toLowerCase().endsWith(".apk")) {
-      alert("Please select an APK file only.");
-      event.target.value = "";
+    if (!file.name.toLowerCase().endsWith(".apk")) {
+      alert("Please select an APK file.");
       return;
     }
 
-    setFile(selectedFile);
-    setUploaded(false);
+    if (file.size > 500 * 1024 * 1024) {
+      alert("File size must be less than 500 MB.");
+      return;
+    }
+
+    setSelectedFile(file);
   };
 
-  // Demo APK
-  const handleDemoAPK = () => {
-    setFile({
-      name: "Calculator-Demo.apk",
-      size: 24 * 1024 * 1024,
-    });
-
-    setUploaded(false);
-  };
-
-  // Remove file
-  const handleRemoveFile = () => {
-    setFile(null);
-    setUploaded(false);
-  };
-
-  // Demo upload
   const handleUpload = () => {
-    if (!file) return;
+    if (!selectedFile) {
+      alert("Please choose an APK file first.");
+      return;
+    }
 
-    setUploading(true);
-    setUploaded(false);
+    alert(`${selectedFile.name} selected successfully!`);
 
-    setTimeout(() => {
-      setUploading(false);
-      setUploaded(true);
-    }, 2000);
+    // Backend connect hone ke baad yahan actual upload API aayegi.
   };
 
   return (
     <div className="dashboard-layout">
 
       {/* SIDEBAR */}
-
-      <aside className="sidebar">
-
-        <div className="sidebar-logo">
-          ☁️ Cloud<span>Hub</span>
-        </div>
-
-        <nav className="sidebar-nav">
-
-          <Link to="/dashboard">
-            🏠 Dashboard
-          </Link>
-
-          <Link to="/my-apps">
-            📱 My Apps
-          </Link>
-
-          <Link to="/upload" className="active">
-            ⬆️ Upload APK
-          </Link>
-
-          <Link to="/sessions">
-            🖥️ Sessions
-          </Link>
-
-          <Link to="/billing">
-            💳 Billing
-          </Link>
-
-          <Link to="/profile">
-            👤 Profile
-          </Link>
-
-          <Link to="/settings">
-            ⚙️ Settings
-          </Link>
-
-        </nav>
-
-        <div className="sidebar-bottom">
-          <Link to="/">
-            🚪 Logout
-          </Link>
-        </div>
-
-      </aside>
-
+      <Sidebar activePage="upload" />
 
       {/* MAIN CONTENT */}
-
       <main className="dashboard-main">
 
         <header className="dashboard-header">
@@ -118,215 +53,202 @@ function UploadAPK() {
             </p>
           </div>
 
+          <Link to="/my-apps" className="upload-header-btn">
+            My Apps
+          </Link>
+
         </header>
 
 
-        <div className="upload-page">
-
-
-          {/* UPLOAD CARD */}
+        {/* UPLOAD SECTION */}
+        <section className="upload-section">
 
           <div className="upload-card">
 
             <div className="upload-icon">
-              ⬆️
+              ↑
             </div>
 
-            <h2>
-              Upload your APK
-            </h2>
+            <h2>Upload your APK</h2>
 
             <p>
-              Select an Android APK file from your computer.
+              Select an Android APK file from your device.
             </p>
 
 
-            {/* REAL APK FILE PICKER */}
+            <label className="file-upload-btn">
 
-            <label className="drop-zone">
+              Choose APK
 
               <input
                 type="file"
-                accept=".apk,application/vnd.android.package-archive"
+                accept=".apk"
                 onChange={handleFileChange}
               />
-
-              <div className="drop-icon">
-                📦
-              </div>
-
-              <strong>
-                Click to select APK
-              </strong>
-
-              <span>
-                Only .apk files are supported
-              </span>
 
             </label>
 
 
-            {/* DEMO APK BUTTON */}
-
-            <button
-              type="button"
-              className="demo-apk-btn"
-              onClick={handleDemoAPK}
-            >
-              🧪 Use Demo APK
-            </button>
-
-
-            {/* SELECTED FILE */}
-
-            {file && (
+            {selectedFile && (
               <div className="selected-file">
 
-                <div>
+                <strong>
+                  Selected file
+                </strong>
 
-                  <strong>
-                    {file.name}
-                  </strong>
+                <span>
+                  {selectedFile.name}
+                </span>
 
-                  <span>
-                    {(file.size / (1024 * 1024)).toFixed(2)} MB
-                  </span>
-
-                </div>
-
-                <button
-                  type="button"
-                  className="remove-file"
-                  onClick={handleRemoveFile}
-                >
-                  ✕
-                </button>
+                <small>
+                  {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB
+                </small>
 
               </div>
             )}
 
 
-            {/* UPLOAD BUTTON */}
-
             <button
-              type="button"
-              className="upload-submit"
-              disabled={!file || uploading}
+              className="upload-submit-btn"
               onClick={handleUpload}
             >
-
-              {uploading
-                ? "Uploading..."
-                : uploaded
-                ? "✓ Upload Successful"
-                : "Upload Application"}
-
+              Upload Application
             </button>
 
 
-            {/* SUCCESS */}
-
-            {uploaded && (
-              <div className="upload-success">
-
-                <span>
-                  ✓ Your APK has been uploaded successfully!
-                </span>
-
-                <Link to="/my-apps">
-                  View My Apps →
-                </Link>
-
-              </div>
-            )}
+            <small className="upload-limit">
+              APK files only · Maximum size: 500 MB
+            </small>
 
           </div>
 
 
-          {/* HOW IT WORKS */}
-
+          {/* INFORMATION */}
           <div className="upload-info">
 
-            <h3>
-              How it works
-            </h3>
+            <h3>Before uploading</h3>
 
 
-            <div className="upload-step">
+            <div className="info-item">
 
-              <span>1</span>
+              <strong>APK Format</strong>
 
-              <div>
-
-                <strong>
-                  Select APK
-                </strong>
-
-                <p>
-                  Choose your Android application.
-                </p>
-
-              </div>
+              <span>
+                Only Android APK files are supported.
+              </span>
 
             </div>
 
 
-            <div className="upload-step">
+            <div className="info-item">
 
-              <span>2</span>
+              <strong>File Size</strong>
 
-              <div>
-
-                <strong>
-                  Upload
-                </strong>
-
-                <p>
-                  CloudHub stores your application.
-                </p>
-
-              </div>
+              <span>
+                Maximum allowed size is 500 MB.
+              </span>
 
             </div>
 
 
-            <div className="upload-step">
+            <div className="info-item">
 
-              <span>3</span>
+              <strong>Security</strong>
 
-              <div>
-
-                <strong>
-                  Launch
-                </strong>
-
-                <p>
-                  Run your app in a cloud Android session.
-                </p>
-
-              </div>
-
-            </div>
-
-
-            {/* DEMO INFO */}
-
-            <div className="demo-info">
-
-              <strong>
-                🧪 No APK available?
-              </strong>
-
-              <p>
-                Use the Demo APK button to test the
-                CloudHub upload interface.
-              </p>
+              <span>
+                Your application will run inside an isolated environment.
+              </span>
 
             </div>
 
           </div>
 
-        </div>
+        </section>
+
+
+        {/* DEMO APPLICATIONS */}
+        <section className="demo-section">
+
+          <div className="section-heading">
+
+            <div>
+              <h2>Demo Applications</h2>
+
+              <p>
+                Try CloudHub with these sample applications.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div className="demo-grid">
+
+            <div className="demo-card">
+
+              <div className="demo-icon">
+                C
+              </div>
+
+              <div>
+                <h3>Calculator</h3>
+
+                <p>
+                  Calculator-Demo.apk
+                </p>
+              </div>
+
+              <span className="status ready">
+                Ready
+              </span>
+
+            </div>
+
+
+            <div className="demo-card">
+
+              <div className="demo-icon">
+                C
+              </div>
+
+              <div>
+                <h3>ChatApp</h3>
+
+                <p>
+                  ChatApp.apk
+                </p>
+              </div>
+
+              <span className="status running">
+                Running
+              </span>
+
+            </div>
+
+
+            <div className="demo-card">
+
+              <div className="demo-icon">
+                B
+              </div>
+
+              <div>
+                <h3>Browser</h3>
+
+                <p>
+                  Browser.apk
+                </p>
+              </div>
+
+              <span className="status ready">
+                Ready
+              </span>
+
+            </div>
+
+          </div>
+
+        </section>
 
       </main>
 

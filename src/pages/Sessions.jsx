@@ -1,83 +1,45 @@
 import { Link } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 function Sessions() {
   const sessions = [
     {
-      app: "Calculator",
-      device: "Android 13",
-      started: "10:30 AM",
-      duration: "12 min",
+      app: "Calculator.apk",
+      android: "Android 13",
+      start: "10:22 AM",
+      duration: "10:32",
       status: "Active",
-      icon: "🧮",
     },
     {
-      app: "ChatApp",
-      device: "Android 12",
-      started: "10:10 AM",
-      duration: "32 min",
-      status: "Active",
-      icon: "💬",
+      app: "ChatApp.apk",
+      android: "Android 13",
+      start: "09:45 AM",
+      duration: "05:21",
+      status: "Completed",
     },
     {
-      app: "Browser",
-      device: "Android 11",
-      started: "09:45 AM",
-      duration: "45 min",
+      app: "Browser.apk",
+      android: "Android 12",
+      start: "08:30 AM",
+      duration: "12:44",
       status: "Stopped",
-      icon: "🌐",
+    },
+    {
+      app: "Calculator.apk",
+      android: "Android 13",
+      start: "Yesterday",
+      duration: "08:16",
+      status: "Completed",
     },
   ];
 
   return (
     <div className="dashboard-layout">
 
-      <aside className="sidebar">
+      {/* COMMON SIDEBAR */}
+      <Sidebar activePage="sessions" />
 
-        <div className="sidebar-logo">
-          ☁️ Cloud<span>Hub</span>
-        </div>
-
-        <nav className="sidebar-nav">
-
-          <Link to="/dashboard">
-            🏠 Dashboard
-          </Link>
-
-          <Link to="/my-apps">
-            📱 My Apps
-          </Link>
-
-          <Link to="/upload">
-            ⬆️ Upload APK
-          </Link>
-
-          <Link to="/sessions" className="active">
-            🖥️ Sessions
-          </Link>
-
-          <Link to="/billing">
-            💳 Billing
-          </Link>
-
-          <Link to="/profile">
-            👤 Profile
-          </Link>
-
-          <Link to="/settings">
-            ⚙️ Settings
-          </Link>
-
-        </nav>
-
-        <div className="sidebar-bottom">
-          <Link to="/">
-            🚪 Logout
-          </Link>
-        </div>
-
-      </aside>
-
-
+      {/* MAIN CONTENT */}
       <main className="dashboard-main">
 
         <header className="dashboard-header">
@@ -86,90 +48,149 @@ function Sessions() {
             <h1>Sessions</h1>
 
             <p>
-              View and manage your cloud Android sessions.
+              Monitor and manage your Android application sessions.
             </p>
           </div>
+
+          <Link to="/my-apps" className="upload-header-btn">
+            My Apps
+          </Link>
 
         </header>
 
 
-        <div className="sessions-card">
+        {/* SESSION SUMMARY */}
+        <section className="stats-grid">
 
-          <div className="sessions-header">
-            <h2>Recent Sessions</h2>
+          <div className="stat-card">
+            <span className="stat-icon">●</span>
+            <p>Active Sessions</p>
+            <h2>1</h2>
+            <small>Currently running</small>
+          </div>
 
-            <span>
-              {sessions.filter(
-                (session) => session.status === "Active"
-              ).length} Active
-            </span>
+          <div className="stat-card">
+            <span className="stat-icon">✓</span>
+            <p>Completed</p>
+            <h2>2</h2>
+            <small>Successfully finished</small>
+          </div>
+
+          <div className="stat-card">
+            <span className="stat-icon">◷</span>
+            <p>Total Runtime</p>
+            <h2>36m</h2>
+            <small>Across all sessions</small>
+          </div>
+
+          <div className="stat-card">
+            <span className="stat-icon">◉</span>
+            <p>Total Sessions</p>
+            <h2>4</h2>
+            <small>All recorded sessions</small>
+          </div>
+
+        </section>
+
+
+        {/* SESSION LIST */}
+        <section className="dashboard-section">
+
+          <div className="section-heading">
+
+            <div>
+              <h2>Recent Sessions</h2>
+
+              <p>
+                Your latest Android application activity.
+              </p>
+            </div>
+
           </div>
 
 
-          <div className="session-list">
+          <div className="sessions-card">
 
+            {/* TABLE HEADER */}
+            <div className="session-table-header">
+
+              <span>Application</span>
+              <span>Android</span>
+              <span>Started</span>
+              <span>Duration</span>
+              <span>Status</span>
+              <span>Action</span>
+
+            </div>
+
+
+            {/* SESSION ROWS */}
             {sessions.map((session, index) => (
 
-              <div className="session-row" key={index}>
+              <div className="session-table-row" key={index}>
 
                 <div className="session-app">
 
-                  <div className="session-icon">
-                    {session.icon}
+                  <div className="session-app-icon">
+                    {session.app.charAt(0)}
                   </div>
 
-                  <div>
-                    <strong>
-                      {session.app}
-                    </strong>
-
-                    <span>
-                      {session.device}
-                    </span>
-                  </div>
+                  <strong>
+                    {session.app}
+                  </strong>
 
                 </div>
 
 
-                <div className="session-info">
-                  <span>Started</span>
-                  <strong>{session.started}</strong>
-                </div>
+                <span>
+                  {session.android}
+                </span>
 
 
-                <div className="session-info">
-                  <span>Duration</span>
-                  <strong>{session.duration}</strong>
-                </div>
+                <span>
+                  {session.start}
+                </span>
 
 
-                <div>
+                <span>
+                  {session.duration}
+                </span>
+
+
+                <span>
 
                   <span
                     className={
                       session.status === "Active"
-                        ? "session-active"
-                        : "session-stopped"
+                        ? "status-running"
+                        : session.status === "Completed"
+                        ? "status-completed"
+                        : "status-stopped"
                     }
                   >
                     ● {session.status}
                   </span>
 
+                </span>
+
+
+                <div>
+
+                  {session.status === "Active" ? (
+
+                    <button className="session-action-btn">
+                      Open
+                    </button>
+
+                  ) : (
+
+                    <button className="session-action-btn secondary">
+                      View
+                    </button>
+
+                  )}
+
                 </div>
-
-
-                <button
-                  className={
-                    session.status === "Active"
-                      ? "open-session-btn"
-                      : "disabled-session-btn"
-                  }
-                  disabled={session.status !== "Active"}
-                >
-                  {session.status === "Active"
-                    ? "Open"
-                    : "Stopped"}
-                </button>
 
               </div>
 
@@ -177,7 +198,7 @@ function Sessions() {
 
           </div>
 
-        </div>
+        </section>
 
       </main>
 

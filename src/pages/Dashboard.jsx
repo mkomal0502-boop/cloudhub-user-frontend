@@ -1,55 +1,11 @@
 import { Link } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 
 function Dashboard() {
   return (
     <div className="dashboard-layout">
 
-      {/* Sidebar */}
-      <aside className="sidebar">
-
-        <div className="sidebar-logo">
-          ☁️ Cloud<span>Hub</span>
-        </div>
-
-        <nav className="sidebar-nav">
-
-          <Link to="/dashboard" className="active">
-            🏠 Dashboard
-          </Link>
-
-          <Link to="/my-apps">
-            📱 My Apps
-          </Link>
-
-          <Link to="/upload">
-            ⬆️ Upload APK
-          </Link>
-
-          <Link to="/sessions">
-            🖥️ Sessions
-          </Link>
-
-          <Link to="/billing">
-            💳 Billing
-          </Link>
-
-          <Link to="/profile">
-            👤 Profile
-          </Link>
-
-          <Link to="/settings">
-            ⚙️ Settings
-          </Link>
-
-        </nav>
-
-        <div className="sidebar-bottom">
-          <Link to="/">
-            🚪 Logout
-          </Link>
-        </div>
-
-      </aside>
+     <Sidebar activePage="dashboard" />
 
 
       {/* Main Dashboard */}
@@ -59,7 +15,7 @@ function Dashboard() {
 
           <div>
             <h1>Dashboard</h1>
-            <p>Welcome back! 👋</p>
+            <p>Welcome back!</p>
           </div>
 
           <Link to="/upload" className="upload-btn">
@@ -73,28 +29,28 @@ function Dashboard() {
         <section className="stats-grid">
 
           <div className="stat-card">
-            <span className="stat-icon">📱</span>
+            <span className="stat-icon">▦</span>
             <p>Total Apps</p>
             <h2>12</h2>
             <small>Uploaded applications</small>
           </div>
 
           <div className="stat-card">
-            <span className="stat-icon">🟢</span>
+            <span className="stat-icon status-dot">●</span>
             <p>Active Sessions</p>
             <h2>3</h2>
             <small>Running right now</small>
           </div>
 
           <div className="stat-card">
-            <span className="stat-icon">🚀</span>
+            <span className="stat-icon">↗</span>
             <p>Total Runs</p>
             <h2>58</h2>
             <small>Apps launched</small>
           </div>
 
           <div className="stat-card">
-            <span className="stat-icon">💾</span>
+            <span className="stat-icon">▣</span>
             <p>Storage Used</p>
             <h2>2.4 GB</h2>
             <small>of 10 GB</small>
@@ -120,7 +76,7 @@ function Dashboard() {
             <div className="app-card">
 
               <div className="app-icon-large">
-                🧮
+                C
               </div>
 
               <h3>Calculator.apk</h3>
@@ -139,7 +95,7 @@ function Dashboard() {
             <div className="app-card">
 
               <div className="app-icon-large">
-                💬
+                C
               </div>
 
               <h3>ChatApp.apk</h3>
@@ -158,7 +114,7 @@ function Dashboard() {
             <div className="app-card">
 
               <div className="app-icon-large">
-                🌐
+                B
               </div>
 
               <h3>Browser.apk</h3>
